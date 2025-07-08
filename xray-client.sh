@@ -86,6 +86,12 @@ configure_from_vless() {
         local server_ip=$(echo "$server_info" | cut -d':' -f1)
         local server_port=$(echo "$server_info" | cut -d':' -f2)
 
+echo "Parsed values:"
+echo "id=$id"
+echo "server_ip=$server_ip"
+echo "server_port=$server_port"
+echo "security=$security"
+
         # Parse parameters
         local security=$(echo "$params" | tr '&' '\n' | grep 'security=' | cut -d'=' -f2)
         local encryption=$(echo "$params" | tr '&' '\n' | grep 'encryption=' | cut -d'=' -f2)
