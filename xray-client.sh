@@ -79,8 +79,8 @@ configure_from_vless() {
 
         # Parse VLESS link
         local user_info=$(echo "$vless_link" | awk -F'@' '{print $1}' | cut -d'/' -f1 | cut -d':' -f2-)
-        local server_info=$(echo "$vless_link" | awk -F'@' '{print $2}' | cut -d'?' '{print $1}')
-        local params=$(echo "$vless_link" | awk -F'?' '{print $2}' | cut -d'#' '{print $1}')
+        local server_info=$(echo "$vless_link" | awk -F'@' '{print $2}' | cut -d'?' -f1)
+        local params=$(echo "$vless_link" | awk -F'?' '{print $2}' | cut -d'#' -f1)
 
         local id=$(echo "$user_info" | cut -d':' -f1)
         local server_ip=$(echo "$server_info" | cut -d':' -f1)
