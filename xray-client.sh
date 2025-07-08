@@ -86,11 +86,6 @@ configure_from_vless() {
         local server_ip=$(echo "$server_info" | cut -d':' -f1)
         local server_port=$(echo "$server_info" | cut -d':' -f2)
 
-echo "Parsed values:"
-echo "id=$id"
-echo "server_ip=$server_ip"
-echo "server_port=$server_port"
-echo "security=$security"
 
         # Parse parameters
         local security=$(echo "$params" | tr '&' '\n' | grep 'security=' | cut -d'=' -f2)
@@ -101,6 +96,11 @@ echo "security=$security"
         local type=$(echo "$params" | tr '&' '\n' | grep 'type=' | cut -d'=' -f2)
         local flow=$(echo "$params" | tr '&' '\n' | grep 'flow=' | cut -d'=' -f2)
         local sid=$(echo "$params" | tr '&' '\n' | grep 'sid=' | cut -d'=' -f2)
+        echo "Parsed values:"
+        echo "id=$id"
+        echo "server_ip=$server_ip"
+        echo "server_port=$server_port"
+        echo "security=$security"
 
         # Validate required parameters
         if [ -z "$id" ] || [ -z "$server_ip" ] || [ -z "$server_port" ] || [ -z "$security" ]; then
