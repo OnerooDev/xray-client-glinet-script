@@ -78,17 +78,15 @@ configure_from_vless() {
         fi
 
         # Parse VLESS link
-        local user_info=$(echo "$vless_link" | awk -F'@' '{print $1}' | cut -d'/' -f1 | cut -d':' -f2-)
-        local server_info=$(echo "$vless_link" | awk -F'@' '{print $2}' | cut -d'?' -f1)
-        local params=$(echo "$vless_link" | awk -F'?' '{print $2}' | cut -d'#' -f1)
+        local id=$(echo "$vless_link" | sed -n 's|vless://\([^@]*\)@.*|\1|p')
 
-        local id=$(echo "$user_info" | cut -d':' -f1)
+        local server_info=$(echo "$vless_link" | awk -F'@' '{print $2}' | cut -d'?' -f1)
         local server_ip=$(echo "$server_info" | cut -d':' -f1)
         local server_port=$(echo "$server_info" | cut -d':' -f2)
 
+        local params=$(echo "$vless_link" | awk -F'?' '{print $2}' | cut -d'#' -f1)
 
-        # Parse parameters
-        local security=$(echo "$params" | tr '&' '\n' | grep 'security=' | cut -d'=' -f2)
+        local security=$(echo "$params" | tr '&' '\n' | grep '^security=' | cut -d'=' -f2)
         local encryption=$(echo "$params" | tr '&' '\n' | grep 'encryption=' | cut -d'=' -f2)
         local pbk=$(echo "$params" | tr '&' '\n' | grep 'pbk=' | cut -d'=' -f2)
         local host=$(echo "$params" | tr '&' '\n' | grep 'host=' | cut -d'=' -f2)
@@ -101,6 +99,13 @@ configure_from_vless() {
         echo "server_ip=$server_ip"
         echo "server_port=$server_port"
         echo "security=$security"
+        echo "encryption=$encryption"
+        echo "pbk=$pbk"
+        echo "host=$host"
+        echo "fp=$fp"
+        echo "type=$type"
+        echo "flow=$flow"
+        echo "sid=$sid"
 
         # Validate required parameters
         if [ -z "$id" ] || [ -z "$server_ip" ] || [ -z "$server_port" ] || [ -z "$security" ]; then
